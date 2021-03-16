@@ -4,7 +4,7 @@ public class SetElement{
   private PShape body;
   private PImage texture;
   
-  public SetElement(String name, float x, float y, float z, float xRotation, float yRotation, PShape body, PImage texture){
+  public SetElement(String name, float x, float y, float z, float xRotation, float yRotation, PShape body){
     this.name = name;
     this.x = x;
     this.y = y;
@@ -12,7 +12,6 @@ public class SetElement{
     this.xRotation = xRotation;
     this.yRotation = yRotation;
     this.body = body;
-    this.texture = texture;
   }
   
   protected void createElement(){
@@ -22,5 +21,9 @@ public class SetElement{
   
   protected String getName(){
     return name;
+  }
+  
+  protected PShape getShape(){
+    return body;
   }
 }

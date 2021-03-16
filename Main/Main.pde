@@ -2,9 +2,8 @@
  * @Author: Samuel Arrocha Quevedo
  * @Version: 
  */
- 
- //TODO:
-//title screen
+
+//TODO:
 //help screen
 //element shaper
 //fps mode
@@ -14,32 +13,63 @@
 
 boolean showHelp, showTitle, fpsMode;
 String pressedKey;
-float viewZoom;
+float viewZoom, xRotation, yRotation;
 FilmingSet set;
+
 
 void setup() {
   size(800, 800, P3D);
-  showTitle = true;
+  showTitle = false;
   showHelp = false;
   fpsMode = false;
   viewZoom = 0;
+  xRotation = 0;
+  yRotation = 0;
+  set = new FilmingSet();
 
   createSet();
 }
 
 void createSet() {
-  
+  // Walls
+  PShape wall = createShape(RECT, 0, 0, 200, 200);  
+
+  SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, wall);
+  SetElement horizontalWall = new SetElement("Horizontal wall", 0, 0, 0, 0, 0, wall);
+
+  set.addElement(verticalWall);
+  set.addElement(horizontalWall);
+
+  // Elements
+  PShape treeShape = loadShape("../data/shapes/tree/lowpolytree.obj");
+
+  SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
+
+  set.addElement(tree);
 }
 
 void draw() {
+  background(0);
   if (showTitle) showTitleScreen();
-  if (!showTitle && showHelp) {
-    showHelpScreen();
-  } else {
+  if (!showTitle && showHelp) showHelpScreen();
+  if (!showTitle && !showHelp) {
     if (!fpsMode) {
+      rotateY(radians(mouseX));
     } else {
     }
+    setWalls();
+
+    //shape(set.getElement("Tree"), 0, 0, 200, 200);
   }
+}
+
+void setWalls() {
+  shape(set.getElement("Vertical wall"), width / 2, height / 2, 700, 600);
+  pushMatrix();
+  //translate(width / 2, height / 2);
+  //rotateX(degrees(30));
+  shape(set.getElement("Horizontal wall"), width / 2, height / 2, 700, 600);
+  popMatrix();
 }
 
 void showHelpScreen() {

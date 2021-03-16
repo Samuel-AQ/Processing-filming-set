@@ -9,7 +9,7 @@ public class FilmingSet{
     elements.put(element.getName(), element);
   }
   
-  protected SetElement getElement(String name){
-    return elements.get(name);
+  protected PShape getElement(String name){
+    return elements.get(name).getShape();
   }
 }
