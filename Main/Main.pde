@@ -22,6 +22,7 @@ void setup() {
   showTitle = false;
   showHelp = false;
   fpsMode = false;
+  pressedKey = "";
   viewZoom = -1400;
   xRotation = 360;
   yRotation = 587;
@@ -32,9 +33,9 @@ void setup() {
 
 void createSet() {
   // Set elements
-  PShape verticalWallShape = createShape(BOX, 800, 50, 500);  
-  PShape horizontalWallShape = createShape(BOX, 800, 50, 500);  
-  PShape treeShape = loadShape("../data/shapes/tree/lowpolytree.obj");
+  PShape verticalWallShape = createShape(BOX, 1000, 50, 1000);  
+  PShape horizontalWallShape = createShape(BOX, 1000, 50, 1000);  
+  PShape treeShape = loadShape("../data/shapes/tree/10445_Oak_Tree_v1_max2010_iteration-1.obj");
   PShape catShape  = loadShape("../data/shapes/cat/12221_Cat_v1_l3.obj");
   PShape statueShape  = loadShape("../data/shapes/statue/12328_Statue_v1_L2.obj");
 
@@ -60,7 +61,7 @@ void draw() {
   if (showTitle) showTitleScreen();
   if (!showTitle && showHelp) showHelpScreen();
   if (!showTitle && !showHelp) {
-    
+    checkKey();
     if (!fpsMode) {
     } else {
       camera();
@@ -70,28 +71,47 @@ void draw() {
     rotateY(radians(yRotation));
     rotateX(radians(xRotation));
     setWalls();
-    setElements();
+    //setElements();
   }
   println(mouseX + " " + mouseY);
 }
 
 void setWalls() {
-  // Horizontal wall
+  // VERTICAL WALLS
+  
+  // Background
   pushMatrix();
   rotateX(radians(450));
-  shape(set.getElement("Vertical wall"), width / 2 + 300, height * 0.4, 700, 10);
+  shape(set.getElement("Vertical wall"), width / 2 + 300, height * 0.4, 1000, 2);
+  popMatrix();
+  
+  // Right wall
+  pushMatrix();
+  translate(width * 0.25, 0, -150);
+  rotateY(radians(629));
+  rotateX(radians(270));
+  shape(set.getElement("Vertical wall"), 0, 0, 1000, 2);
+  popMatrix();
+  
+  // Left wall
+  pushMatrix();
+  translate(width * 1.48, 0, -150);
+  rotateY(radians(629));
+  rotateX(radians(270));
+  shape(set.getElement("Vertical wall"), 0, 0, 1000, 2);
   popMatrix();
 
-  // Vertical wall
+  // HORIZONTAL WALLS
   pushMatrix();
-  shape(set.getElement("Horizontal wall"), width / 2 + 300, height * 0.4, 700, 20);
+  translate(width / 2 + 300, height * 0.62, -150);
+  shape(set.getElement("Horizontal wall"), 0, 0, 1000, 2);
   popMatrix();
 }
 
 void setElements() {
   // Cat position
   pushMatrix();
-  translate(width * 1.2, height * 0.35, -150);
+  translate(width * 1.2, height * 0.39, -150);
   rotateY(radians(471));
   rotateX(radians(453));
   shape(set.getElement("Cat"));
@@ -99,10 +119,18 @@ void setElements() {
 
   // Statue position
   pushMatrix();
-  translate(width, height * 0.35, -50);
+  translate(width, height * 0.39, -50);
   rotateY(radians(367));
   rotateX(radians(453));
   shape(set.getElement("Statue"));
+  popMatrix();
+
+  // Trees position
+  pushMatrix();
+  translate(width * 0.8, height * 0.39, -50);
+  rotateY(radians(367));
+  rotateX(radians(453));
+  shape(set.getElement("Tree"));
   popMatrix();
 }
 
