@@ -22,7 +22,7 @@ void setup() {
   showTitle = false;
   showHelp = false;
   fpsMode = false;
-  viewZoom = 0;
+  viewZoom = 1350;
   xRotation = 0;
   yRotation = 0;
   set = new FilmingSet();
@@ -31,21 +31,24 @@ void setup() {
 }
 
 void createSet() {
-  // Walls
-  PShape wall = createShape(RECT, 0, 0, 200, 200);  
-
+  // Set elements
+  PShape wall = createShape(BOX, 800, 50, 500);  
+  PShape treeShape = loadShape("../data/shapes/tree/lowpolytree.obj");
+  PShape catShape  = loadShape("../data/shapes/cat/12221_Cat_v1_l3.obj");
+  PShape statueShape  = loadShape("../data/shapes/statue/12328_Statue_v1_L2.obj");
+  
   SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, wall);
   SetElement horizontalWall = new SetElement("Horizontal wall", 0, 0, 0, 0, 0, wall);
-
+  SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
+  SetElement cat = new SetElement("Cat", 0, 0, 0, 0, 0, catShape);
+  SetElement statue = new SetElement("Statue", 0, 0, 0, 0, 0, statueShape);
+  
+  // Set creation
   set.addElement(verticalWall);
   set.addElement(horizontalWall);
-
-  // Elements
-  PShape treeShape = loadShape("../data/shapes/tree/lowpolytree.obj");
-
-  SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
-
   set.addElement(tree);
+  set.addElement(cat);
+  set.addElement(statue);
 }
 
 void draw() {
@@ -54,8 +57,10 @@ void draw() {
   if (!showTitle && showHelp) showHelpScreen();
   if (!showTitle && !showHelp) {
     if (!fpsMode) {
+      //rotateY(radians(42));
       rotateY(radians(mouseX));
     } else {
+      camera();
     }
     setWalls();
 
@@ -64,11 +69,21 @@ void draw() {
 }
 
 void setWalls() {
-  shape(set.getElement("Vertical wall"), width / 2, height / 2, 700, 600);
+  translate(width / 2 + 500, height * 0.4, viewZoom);
+  println(mouseX + " " + mouseY + " " +  viewZoom);
+  
+  rotateY(radians(335));
+  rotateX(radians(108));
+  
+  // Horizontal wall
   pushMatrix();
-  //translate(width / 2, height / 2);
-  //rotateX(degrees(30));
-  shape(set.getElement("Horizontal wall"), width / 2, height / 2, 700, 600);
+  rotateX(radians(450));
+  shape(set.getElement("Vertical wall"), width / 2 + 300, height * 0.4, 700, 10);
+  popMatrix();
+  
+  // Vertical wall
+  pushMatrix();
+  shape(set.getElement("Horizontal wall"), width / 2 + 300, height * 0.4, 700, 20);
   popMatrix();
 }
 
