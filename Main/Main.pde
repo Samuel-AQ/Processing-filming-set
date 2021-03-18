@@ -23,8 +23,8 @@ void setup() {
   showHelp = false;
   fpsMode = false;
   viewZoom = -1400;
-  xRotation = 0;
-  yRotation = 0;
+  xRotation = 360;
+  yRotation = 587;
   set = new FilmingSet();
 
   createSet();
@@ -37,16 +37,16 @@ void createSet() {
   PShape treeShape = loadShape("../data/shapes/tree/lowpolytree.obj");
   PShape catShape  = loadShape("../data/shapes/cat/12221_Cat_v1_l3.obj");
   PShape statueShape  = loadShape("../data/shapes/statue/12328_Statue_v1_L2.obj");
-  
+
   PImage groundTexture = loadImage("../data/textures/ground_texture.jpg");
   PImage forestTexture = loadImage("../data/textures/forest_texture.jpg");
-  
+
   SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, verticalWallShape, forestTexture);
   SetElement horizontalWall = new SetElement("Horizontal wall", 0, 0, 0, 0, 0, horizontalWallShape, groundTexture);
   SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
   SetElement cat = new SetElement("Cat", 0, 0, 0, 0, 0, catShape);
   SetElement statue = new SetElement("Statue", 0, 0, 0, 0, 0, statueShape);
-  
+
   // Set creation
   set.addElement(verticalWall);
   set.addElement(horizontalWall);
@@ -56,44 +56,54 @@ void createSet() {
 }
 
 void draw() {
-  background(0);
+  background(255);
   if (showTitle) showTitleScreen();
   if (!showTitle && showHelp) showHelpScreen();
   if (!showTitle && !showHelp) {
+    
     if (!fpsMode) {
-      //rotateY(radians(42));
-      //rotateY(radians(mouseX));
     } else {
       camera();
     }
+
+    translate(width / 2 + 500, height * 0.4, viewZoom);
+    rotateY(radians(yRotation));
+    rotateX(radians(xRotation));
     setWalls();
     setElements();
-
-    //shape(set.getElement("Tree"), 0, 0, 200, 200);
   }
+  println(mouseX + " " + mouseY);
 }
 
 void setWalls() {
-  translate(width / 2 + 500, height * 0.4, viewZoom);
-  println(mouseX + " " + mouseY + " " +  viewZoom);
-  
-  rotateY(radians(587));
-  rotateX(radians(360));
-  
   // Horizontal wall
   pushMatrix();
   rotateX(radians(450));
   shape(set.getElement("Vertical wall"), width / 2 + 300, height * 0.4, 700, 10);
   popMatrix();
-  
+
   // Vertical wall
   pushMatrix();
   shape(set.getElement("Horizontal wall"), width / 2 + 300, height * 0.4, 700, 20);
   popMatrix();
 }
 
-void setElements(){
+void setElements() {
+  // Cat position
+  pushMatrix();
+  translate(width * 1.2, height * 0.35, -150);
+  rotateY(radians(471));
+  rotateX(radians(453));
+  shape(set.getElement("Cat"));
+  popMatrix();
 
+  // Statue position
+  pushMatrix();
+  translate(width, height * 0.35, -50);
+  rotateY(radians(367));
+  rotateX(radians(453));
+  shape(set.getElement("Statue"));
+  popMatrix();
 }
 
 void showHelpScreen() {
@@ -115,27 +125,56 @@ void showTitleScreen() {
 }
 
 void checkKey() {
-  switch(pressedKey) {
-  case "w":
-    break;
-  case "d":
-    break;
-  case "s":
-    break;
-  case "a":
-    break;
-  case "e":
-    break;
-  case "q":
-    break;
-  case "up":
-    break;
-  case "right":
-    break;
-  case "down":
-    break;
-  case "left":
-    break;
+  if (fpsMode) {
+    switch(pressedKey) {
+    case "w":
+      break;
+    case "d":
+      break;
+    case "s":
+      break;
+    case "a":
+      break;
+    case "e":
+      break;
+    case "q":
+      break;
+    case "up":
+      break;
+    case "right":
+      break;
+    case "down":
+      break;
+    case "left":
+      break;
+    }
+  } else {
+    switch(pressedKey) {
+    case "w":
+      break;
+    case "d":
+      break;
+    case "s":
+      break;
+    case "a":
+      break;
+    case "e":
+      break;
+    case "q":
+      break;
+    case "up":
+      xRotation--;
+      break;
+    case "right":
+      yRotation++;
+      break;
+    case "down":
+      xRotation++;
+      break;
+    case "left":
+      yRotation--;
+      break;
+    }
   }
 }
 
