@@ -22,7 +22,7 @@ void setup() {
   showTitle = false;
   showHelp = false;
   fpsMode = false;
-  viewZoom = 1350;
+  viewZoom = -1400;
   xRotation = 0;
   yRotation = 0;
   set = new FilmingSet();
@@ -32,13 +32,17 @@ void setup() {
 
 void createSet() {
   // Set elements
-  PShape wall = createShape(BOX, 800, 50, 500);  
+  PShape verticalWallShape = createShape(BOX, 800, 50, 500);  
+  PShape horizontalWallShape = createShape(BOX, 800, 50, 500);  
   PShape treeShape = loadShape("../data/shapes/tree/lowpolytree.obj");
   PShape catShape  = loadShape("../data/shapes/cat/12221_Cat_v1_l3.obj");
   PShape statueShape  = loadShape("../data/shapes/statue/12328_Statue_v1_L2.obj");
   
-  SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, wall);
-  SetElement horizontalWall = new SetElement("Horizontal wall", 0, 0, 0, 0, 0, wall);
+  PImage groundTexture = loadImage("../data/textures/ground_texture.jpg");
+  PImage forestTexture = loadImage("../data/textures/forest_texture.jpg");
+  
+  SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, verticalWallShape, forestTexture);
+  SetElement horizontalWall = new SetElement("Horizontal wall", 0, 0, 0, 0, 0, horizontalWallShape, groundTexture);
   SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
   SetElement cat = new SetElement("Cat", 0, 0, 0, 0, 0, catShape);
   SetElement statue = new SetElement("Statue", 0, 0, 0, 0, 0, statueShape);
@@ -58,11 +62,12 @@ void draw() {
   if (!showTitle && !showHelp) {
     if (!fpsMode) {
       //rotateY(radians(42));
-      rotateY(radians(mouseX));
+      //rotateY(radians(mouseX));
     } else {
       camera();
     }
     setWalls();
+    setElements();
 
     //shape(set.getElement("Tree"), 0, 0, 200, 200);
   }
@@ -72,8 +77,8 @@ void setWalls() {
   translate(width / 2 + 500, height * 0.4, viewZoom);
   println(mouseX + " " + mouseY + " " +  viewZoom);
   
-  rotateY(radians(335));
-  rotateX(radians(108));
+  rotateY(radians(587));
+  rotateX(radians(360));
   
   // Horizontal wall
   pushMatrix();
@@ -85,6 +90,10 @@ void setWalls() {
   pushMatrix();
   shape(set.getElement("Horizontal wall"), width / 2 + 300, height * 0.4, 700, 20);
   popMatrix();
+}
+
+void setElements(){
+
 }
 
 void showHelpScreen() {
