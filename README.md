@@ -27,8 +27,8 @@ There are 4 lights modes:
 ## Application demonstration
 ![Example](https://github.com/Samuel-AQ/Planetary-system/blob/develop/data/Demonstration/example.gif?raw=true)
 ## References
-[Processing documentation](https://processing.org/reference/)
-[Peasycam](http://mrfeinberg.com/peasycam/)
+* [Processing documentation](https://processing.org/reference/)
+* [Peasycam](http://mrfeinberg.com/peasycam/)
 ## Other info
 * Author: Samuel Arrocha Quevedo
 * Version: 20/03/2021
