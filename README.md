@@ -29,6 +29,7 @@ There are 4 lights modes:
 ## References
 * [Processing documentation](https://processing.org/reference/)
 * [Peasycam](http://mrfeinberg.com/peasycam/)
+* [Set shapes](https://free3d.com/)
 ## Other info
 * Author: Samuel Arrocha Quevedo
 * Version: 20/03/2021
