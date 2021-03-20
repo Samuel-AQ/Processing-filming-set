@@ -17,7 +17,7 @@ PeasyCam camera;
 
 void setup() {
   size(800, 800, P3D);
-  showTitle = false;
+  showTitle = true;
   showHelp = false;
   fpsMode = true;
   pressedKey = "";
@@ -181,10 +181,10 @@ void showTitleScreen() {
   background(black);
   textAlign(CENTER);
   textSize(50);
-  text(title, width / 2, height * 0.1);
-  image(systemImage, width * 0.16, height * 0.25, imageWidth, imageHeight);
+  text(title, width * 0.48, height * 0.1);
+  image(systemImage, width * 0.14, height * 0.25, imageWidth, imageHeight);
   textSize(40);
-  text(info, width / 2, height * 0.9);
+  text(info, width * 0.48, height * 0.9);
 }
 
 void keyPressed() {
