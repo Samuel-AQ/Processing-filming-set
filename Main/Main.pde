@@ -127,7 +127,7 @@ void setLights() {
   case "morning":
     lights();
     break;
-  case "evening":
+  case "afternoon":
     pointLight(204, 153, 0, mouseX, mouseY, 1000);
     lightSpecular(100, 100, 100);
     directionalLight(0.8, 0.8, 0.8, 0, 0, -1);
@@ -151,7 +151,7 @@ void showHelpScreen() {
   String controlsTitle = "Studio controls";
   String cameraTitle = "Camera controls";
   String controls = "Press 'Y' to bring the morning \n" +
-    "Press 'U' to bring the evening\n" +
+    "Press 'U' to bring the afternoon\n" +
     "Press 'I' to bring the night\n" +
     "Press 'O' to bring the darkness\n" +
     "Press 'H' to open or exit the help\n" +
@@ -196,7 +196,7 @@ void keyPressed() {
 
   // Lights control
   if (keyCode == 'y' || keyCode == 'Y') lightMode = "morning";
-  if (keyCode == 'u' || keyCode == 'U') lightMode = "evening";
+  if (keyCode == 'u' || keyCode == 'U') lightMode = "afternoon";
   if (keyCode == 'i' || keyCode == 'I') lightMode = "night";
   if (keyCode == 'o' || keyCode == 'O') lightMode = "noLights";
 }
