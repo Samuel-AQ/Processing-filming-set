@@ -1,4 +1,4 @@
-# Planetary system using Processing
+# Filming set using Processing
 ## Description
 This is an applicaton that emulates an imaginary filming studio of a park
 ## How it works
