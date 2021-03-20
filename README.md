@@ -4,7 +4,7 @@ This is an applicaton that emulates an imaginary filming studio of a park
 ## How it works
 In order to use the application you just have to run the main file. It will show you the set I designed and the visualization controls you can use, which are:
 * Press 'Y' to bring the morning
-* Press 'U' to bring the evening
+* Press 'U' to bring the afternoon
 * Press 'I' to bring the night
 * Press 'O' to bring to turn off the lights
 * Press 'H' to open or exit the help
