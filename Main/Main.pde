@@ -1,32 +1,32 @@
 /**
  * @Author: Samuel Arrocha Quevedo
- * @Version: 
+ * @Version: 20-03-2020
  */
 
-//TODO:
-//help screen
-//element shaper
-//fps mode
-//not fps mode
-//search shapes
-//lights
+//TODO :
+//fix night light
+//set trees
+
+import peasy.*;
 
 boolean showHelp, showTitle, fpsMode;
-String pressedKey;
+String pressedKey, lightMode;
 float viewZoom, xRotation, yRotation;
 FilmingSet set;
-
+PeasyCam camera;
 
 void setup() {
   size(800, 800, P3D);
   showTitle = false;
   showHelp = false;
-  fpsMode = false;
+  fpsMode = true;
   pressedKey = "";
-  viewZoom = -1400;
+  lightMode = "morning";
+  viewZoom = -1450;
   xRotation = 360;
-  yRotation = 587;
+  yRotation = 201;
   set = new FilmingSet();
+  camera = new PeasyCam(this, 378, 350, 500, 250);
 
   createSet();
 }
@@ -40,20 +40,25 @@ void createSet() {
   PShape catShape  = loadShape("../data/shapes/cat/12221_Cat_v1_l3.obj");
   PShape statueShape  = loadShape("../data/shapes/statue/12328_Statue_v1_L2.obj");
   PShape studioLightShape = loadShape("../data/shapes/studio_light/Obj/Streetlight_HighRes.obj");
-  
+
   PImage groundTexture = loadImage("../data/textures/ground_texture.jpg");
   PImage forestTexture = loadImage("../data/textures/forest_texture.jpg");
 
-  SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, verticalWallShape, forestTexture);
-  SetElement horizontalWall = new SetElement("Horizontal wall", 0, 0, 0, 0, 0, horizontalWallShape, groundTexture);
-  SetElement baseGround = new SetElement("Base ground", 0, 0, 0, 0, 0, baseGroundShape);
+  //SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, verticalWallShape, forestTexture);
+  SetElement backgroundWall = new SetElement("Background wall", width * 0.875, height * 0.05, 0, 450, 0, verticalWallShape, forestTexture);
+  SetElement rightWall = new SetElement("Right wall", width * 0.005, height * 0.05, -500, 629, 270, verticalWallShape, forestTexture);
+  SetElement leftWall = new SetElement("Left wall", width * 1.75, height * 0.05, -500, 450, 90, verticalWallShape, forestTexture);
+  SetElement horizontalWall = new SetElement("Horizontal wall", width * 0.875, height * 0.63, -500, 0, 0, horizontalWallShape, groundTexture);
+  SetElement baseGround = new SetElement("Base ground", width * 0.875, height * 0.65, -500, 360, 453, baseGroundShape);
   SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
-  SetElement cat = new SetElement("Cat", 0, 0, 0, 0, 0, catShape);
-  SetElement statue = new SetElement("Statue", 0, 0, 0, 0, 0, statueShape);
-  SetElement studioLight = new SetElement("Studio light", 0, 0, 0, 0, 0, studioLightShape);
+  SetElement cat = new SetElement("Cat", width * 1.5, height * 0.61, -700, 450, 475, catShape);
+  SetElement statue = new SetElement("Statue", width * 0.9, height * 0.61, -600, 80, 0, statueShape);
+  SetElement studioLight = new SetElement("Studio light", width * 0.2, height * 0.61, -950, 180, 0, studioLightShape);
 
   // Set creation
-  set.addElement(verticalWall);
+  set.addElement(backgroundWall);
+  set.addElement(rightWall);
+  set.addElement(leftWall);
   set.addElement(horizontalWall);
   set.addElement(baseGround);
   set.addElement(tree);
@@ -65,113 +70,106 @@ void createSet() {
 void draw() {
   background(0);
   if (showTitle) showTitleScreen();
-  if (!showTitle && showHelp) showHelpScreen();
+  if (!showTitle && showHelp) {
+    camera = new PeasyCam(this, 378, 350, 500, 250);
+    camera.setActive(false); 
+    showHelpScreen();
+  }
   if (!showTitle && !showHelp) {
-    checkKey();
-    if (!fpsMode) {
-    } else {
-      camera();
-    }
+    camera.setActive(true);
 
-    translate(width / 2 + 500, height * 0.4, viewZoom);
+    textSize(20);
+    textAlign(CENTER);
+    text("Press 'H' to see the help", width * 0.465, height - 30);
+
+    setLights();
+
+    // Filming set
+    translate(width * 1.125, height * 0.4, viewZoom);
     rotateY(radians(yRotation));
     rotateX(radians(xRotation));
     setWalls();
     setElements();
   }
-  println(mouseX + " " + mouseY);
 }
 
 void setWalls() {
-  // GROUND
-  pushMatrix();
-  translate(width / 2 + 300, height * 0.65, -500);
-  set.getElement("Base ground").setFill(color(50));
-  shape(set.getElement("Base ground"), 0, 0, 2000, 10);
-  popMatrix();
-  
-  // VERTICAL WALLS
-  
-  // Background
-  pushMatrix();
-  rotateX(radians(450));
-  shape(set.getElement("Vertical wall"), width / 2 + 300, height * 0.4, 1400, 2);
-  popMatrix();
-  
-  // Right wall
-  pushMatrix();
-  translate(width * 0.005, 0, -150);
-  rotateY(radians(629));
-  rotateX(radians(270));
-  shape(set.getElement("Vertical wall"), 0, 0, 1000, 2);
-  popMatrix();
-  
-  // Left wall
-  pushMatrix();
-  translate(width * 1.75, 0, -150);
-  rotateY(radians(450));
-  rotateX(radians(90));
-  shape(set.getElement("Vertical wall"), 0, 0, 1000, 2);
-  popMatrix();
-
-  // HORIZONTAL WALLS
-  pushMatrix();
-  translate(width / 2 + 300, height * 0.62, -150);
-  shape(set.getElement("Horizontal wall"), 0, 0, 1400, 2);
-  popMatrix();
+  set.getElement("Base ground").createElement(2000, 10, color(50));
+  set.getElement("Background wall").createElement(1400, 2);
+  set.getElement("Right wall").createElement(1000, 2);
+  set.getElement("Left wall").createElement(1000, 2);
+  set.getElement("Horizontal wall").createElement(1400, 2);
 }
 
 void setElements() {
-  // Cat position
-  pushMatrix();
-  translate(width * 1.2, height * 0.61, -150);
-  rotateY(radians(471));
-  rotateX(radians(453));
-  shape(set.getElement("Cat"));
-  popMatrix();
+  set.getElement("Cat").createElement();
+  set.getElement("Statue").createElement();
+  set.getElement("Studio light").createElement(color(0));
+  
+  //// Trees position
+  //pushMatrix();
+  //translate(width * 0.4, height * 0.61, -50);
+  //rotateY(radians(615));
+  //rotateX(radians(453));
+  //shape(set.getElement("Tree"));
+  //popMatrix();
 
-  // Statue position
-  pushMatrix();
-  translate(width * 0.85, height * 0.61, -50);
-  rotateY(radians(367));
-  rotateX(radians(453));
-  shape(set.getElement("Statue"));
-  popMatrix();
+  //pushMatrix();
+  //translate(width * 1.35, height * 0.61, -50);
+  //rotateY(radians(328));
+  //rotateX(radians(453));
+  //shape(set.getElement("Tree"));
+  //popMatrix();
+}
 
-  // Trees position
-  pushMatrix();
-  translate(width * 0.4, height * 0.61, -50);
-  rotateY(radians(615));
-  rotateX(radians(453));
-  shape(set.getElement("Tree"));
-  popMatrix();
-  
-  pushMatrix();
-  translate(width * 1.35, height * 0.61, -50);
-  rotateY(radians(328));
-  rotateX(radians(453));
-  shape(set.getElement("Tree"));
-  popMatrix();
-  
-  // Studio lights
-  pushMatrix();
-  translate(width * 1.6, height * 0.61, -500);
-  rotateY(radians(211));
-  rotateX(radians(538));
-  set.getElement("Studio light").setFill(color(0));
-  shape(set.getElement("Studio light"));
-  popMatrix();
-  
-  pushMatrix();
-  translate(width * 0.2, height * 0.61, -500);
-  rotateY(radians(693));
-  rotateX(radians(538));
-  set.getElement("Studio light").setFill(color(0));
-  shape(set.getElement("Studio light"));
-  popMatrix();
+void setLights() {
+  switch(lightMode) {
+  case "morning":
+    lights();
+    break;
+  case "evening":
+    pointLight(204, 153, 0, mouseX, mouseY, 1000);
+    lightSpecular(100, 100, 100);
+    directionalLight(0.8, 0.8, 0.8, 0, 0, -1);
+    break;
+  case "night":
+    spotLight(255, 255, 255, width * 0.5, height * 0.4, -500, 0, 1, -1, PI * 0.3, 2);
+    break;
+  case "noLights":
+    camera.setActive(false);
+    textSize(50);
+    textAlign(CENTER);
+    text("Press 'Y' to bring the morning", width * 0.48, height / 2);
+
+    ambientLight(0, 0, 0);
+    break;
+  }
 }
 
 void showHelpScreen() {
+  float middleX = width * 0.465;
+  String controlsTitle = "Studio controls";
+  String cameraTitle = "Camera controls";
+  String controls = "Press 'Y' to bring the morning \n" +
+    "Press 'U' to bring the evening\n" +
+    "Press 'I' to bring the night\n" +
+    "Press 'O' to bring the darkness\n" +
+    "Press 'H' to open or exit the help\n" +
+    "Press 'R' to reset the application";
+  String cameraControls = "Left click and drag to rotate de camera\n" +
+    "Mouse wheel to zoom in and out\n" +
+    "Right click and vertical drag to modify zoom\n" +
+    "Double left click to reset the camera";
+
+  textAlign(CENTER);
+
+  textSize(50);
+  text(controlsTitle, middleX, height * 0.05);
+  text(cameraTitle, middleX, height * 0.57);
+
+  textSize(30);
+  text(controls, middleX, height * 0.15);
+  text(cameraControls, middleX, height * 0.67);
 }
 
 void showTitleScreen() {
@@ -189,83 +187,18 @@ void showTitleScreen() {
   text(info, width / 2, height * 0.9);
 }
 
-void checkKey() {
-  if (fpsMode) {
-    switch(pressedKey) {
-    case "w":
-      break;
-    case "d":
-      break;
-    case "s":
-      break;
-    case "a":
-      break;
-    case "e":
-      break;
-    case "q":
-      break;
-    case "up":
-      break;
-    case "right":
-      break;
-    case "down":
-      break;
-    case "left":
-      break;
-    }
-  } else {
-    switch(pressedKey) {
-    case "w":
-      break;
-    case "d":
-      break;
-    case "s":
-      break;
-    case "a":
-      break;
-    case "e":
-      break;
-    case "q":
-      break;
-    case "up":
-      xRotation--;
-      break;
-    case "right":
-      yRotation++;
-      break;
-    case "down":
-      xRotation++;
-      break;
-    case "left":
-      yRotation--;
-      break;
-    }
-  }
-}
-
 void keyPressed() {
   if (keyCode == ENTER) showTitle = false;
 
-  if (keyCode == 'C' || keyCode == 'c') fpsMode = !fpsMode;
+  if (keyCode == 'R' || keyCode == 'r') setup();
 
-  if (keyCode == 'R' || keyCode == 'r') {
-    camera();
-    setup();
-  } 
+  if (keyCode == 'h' || keyCode == 'H') showHelp = !showHelp;
 
-  if (keyCode == 'i' || keyCode == 'I') showHelp = !showHelp;
-
-  // Camera controls
-  if (keyCode == 'w' || keyCode == 'W') pressedKey = "w";
-  if (keyCode == 'd' || keyCode == 'D') pressedKey = "d";
-  if (keyCode == 's' || keyCode == 'S') pressedKey = "s";
-  if (keyCode == 'a' || keyCode == 'A') pressedKey = "a";
-  if (keyCode == 'e' || keyCode == 'E') pressedKey = "e";
-  if (keyCode == 'q' || keyCode == 'Q') pressedKey = "q";
-  if (keyCode == UP) pressedKey = "up";
-  if (keyCode == DOWN) pressedKey = "down";
-  if (keyCode == LEFT) pressedKey = "right";
-  if (keyCode == RIGHT) pressedKey = "left";
+  // Lights control
+  if (keyCode == 'y' || keyCode == 'Y') lightMode = "morning";
+  if (keyCode == 'u' || keyCode == 'U') lightMode = "evening";
+  if (keyCode == 'i' || keyCode == 'I') lightMode = "night";
+  if (keyCode == 'o' || keyCode == 'O') lightMode = "noLights";
 }
 
 void keyReleased() {
@@ -279,8 +212,4 @@ void keyReleased() {
     keyCode == LEFT || keyCode == RIGHT;
 
   if (someCameraKeyIsReleased) pressedKey = "";
-}
-
-void mouseWheel(MouseEvent event) {
-  if (!fpsMode) viewZoom -= event.getCount() * 50;
 }

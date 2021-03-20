@@ -26,8 +26,41 @@ public class SetElement{
   }
   
   protected void createElement(){
-    //pushMatrix();
-    //translate()
+    pushMatrix();
+    translate(x, y, z);
+    rotateY(radians(yRotation));
+    rotateX(radians(xRotation));
+    shape(body);
+    popMatrix();
+  }
+  
+  protected void createElement(float elementWidth, float elementHeight){
+    pushMatrix();
+    translate(x, y, z);
+    rotateY(radians(yRotation));
+    rotateX(radians(xRotation));
+    shape(body, 0, 0, elementWidth, elementHeight);
+    popMatrix();
+  }
+  
+  protected void createElement(float elementWidth, float elementHeight, color shapeColor){
+    pushMatrix();
+    translate(x, y, z);
+    rotateY(radians(yRotation));
+    rotateX(radians(xRotation));
+    body.setFill(shapeColor);
+    shape(body, 0, 0, elementWidth, elementHeight);
+    popMatrix();
+  }
+  
+  protected void createElement(color shapeColor){
+    pushMatrix();
+    translate(x, y, z);
+    rotateY(radians(yRotation));
+    rotateX(radians(xRotation));
+    body.setFill(shapeColor);
+    shape(body);
+    popMatrix();
   }
   
   protected String getName(){
