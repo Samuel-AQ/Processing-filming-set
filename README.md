@@ -21,7 +21,7 @@ This application has been developed according to the principles of Jakob Nielsen
 For the camera movements I have decided to use an external library known as "PeasyCam" which makes quite easier to manage the camera in less lines.
 There are 4 lights modes:
 * Morning: it shows a fully illuminated version of the park.
-* Afternoon: it shows half illuminated version of the park imitating a sunset.
+* Afternoon: it shows a half illuminated version of the park imitating a sunset. You can adjust de lighted point moving the mouse in this mode.
 * Night: it shows a less illuminated version of the park lighted just by a street light.
 * No light: it shows nothing, there is no light so it won't be possible for the user to see any element of the filming set.
 ## Application demonstration
@@ -32,4 +32,4 @@ There are 4 lights modes:
 * [Set shapes](https://free3d.com/)
 ## Other info
 * Author: Samuel Arrocha Quevedo
-* Version: 20/03/2021
+* Version: 21/03/2021
