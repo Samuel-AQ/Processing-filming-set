@@ -1,17 +1,13 @@
 /**
  * @Author: Samuel Arrocha Quevedo
- * @Version: 20-03-2020
+ * @Version: 21-03-2020
  */
-
-//TODO :
-//fix night light
-//set trees
 
 import peasy.*;
 
-boolean showHelp, showTitle, fpsMode;
-String pressedKey, lightMode;
-float viewZoom, xRotation, yRotation;
+boolean showHelp, showTitle;
+String lightMode;
+float xRotation, yRotation;
 FilmingSet set;
 PeasyCam camera;
 
@@ -19,10 +15,7 @@ void setup() {
   size(800, 800, P3D);
   showTitle = true;
   showHelp = false;
-  fpsMode = true;
-  pressedKey = "";
-  lightMode = "morning";
-  viewZoom = -1450;
+  lightMode = "noLight";
   xRotation = 360;
   yRotation = 201;
   set = new FilmingSet();
@@ -44,13 +37,13 @@ void createSet() {
   PImage groundTexture = loadImage("../data/textures/ground_texture.jpg");
   PImage forestTexture = loadImage("../data/textures/forest_texture.jpg");
 
-  //SetElement verticalWall = new SetElement("Vertical wall", 0, 0, 0, 0, 0, verticalWallShape, forestTexture);
   SetElement backgroundWall = new SetElement("Background wall", width * 0.875, height * 0.05, 0, 450, 0, verticalWallShape, forestTexture);
   SetElement rightWall = new SetElement("Right wall", width * 0.005, height * 0.05, -500, 629, 270, verticalWallShape, forestTexture);
   SetElement leftWall = new SetElement("Left wall", width * 1.75, height * 0.05, -500, 450, 90, verticalWallShape, forestTexture);
   SetElement horizontalWall = new SetElement("Horizontal wall", width * 0.875, height * 0.63, -500, 0, 0, horizontalWallShape, groundTexture);
   SetElement baseGround = new SetElement("Base ground", width * 0.875, height * 0.65, -500, 360, 453, baseGroundShape);
-  SetElement tree = new SetElement("Tree", 0, 0, 0, 0, 0, treeShape);
+  SetElement rightTree = new SetElement("Right tree", width * 0.4, height * 0.61, -250, 100, 50, treeShape);
+  SetElement leftTree = new SetElement("Left tree", width * 1.35, height * 0.61, -250, 100, 120, treeShape);
   SetElement cat = new SetElement("Cat", width * 1.5, height * 0.61, -700, 450, 475, catShape);
   SetElement statue = new SetElement("Statue", width * 0.9, height * 0.61, -600, 80, 0, statueShape);
   SetElement studioLight = new SetElement("Studio light", width * 0.2, height * 0.61, -950, 180, 0, studioLightShape);
@@ -61,7 +54,8 @@ void createSet() {
   set.addElement(leftWall);
   set.addElement(horizontalWall);
   set.addElement(baseGround);
-  set.addElement(tree);
+  set.addElement(rightTree);
+  set.addElement(leftTree);
   set.addElement(cat);
   set.addElement(statue);
   set.addElement(studioLight);
@@ -85,7 +79,7 @@ void draw() {
     setLights();
 
     // Filming set
-    translate(width * 1.125, height * 0.4, viewZoom);
+    translate(width * 1.125, height * 0.4, -1450);
     rotateY(radians(yRotation));
     rotateX(radians(xRotation));
     setWalls();
@@ -105,21 +99,8 @@ void setElements() {
   set.getElement("Cat").createElement();
   set.getElement("Statue").createElement();
   set.getElement("Studio light").createElement(color(0));
-  
-  //// Trees position
-  //pushMatrix();
-  //translate(width * 0.4, height * 0.61, -50);
-  //rotateY(radians(615));
-  //rotateX(radians(453));
-  //shape(set.getElement("Tree"));
-  //popMatrix();
-
-  //pushMatrix();
-  //translate(width * 1.35, height * 0.61, -50);
-  //rotateY(radians(328));
-  //rotateX(radians(453));
-  //shape(set.getElement("Tree"));
-  //popMatrix();
+  set.getElement("Right tree").createElement();
+  set.getElement("Left tree").createElement();
 }
 
 void setLights() {
@@ -133,7 +114,8 @@ void setLights() {
     directionalLight(0.8, 0.8, 0.8, 0, 0, -1);
     break;
   case "night":
-    spotLight(255, 255, 255, width * 0.5, height * 0.4, -500, 0, 1, -1, PI * 0.3, 2);
+    spotLight(255, 255, 255, width * 0.5, height * 0.4, -500, 0, 1, -1, PI * 0.4, 2);
+    spotLight(255, 255, 255, width * 1.5, height * 0.05, 500, 0, 1, -1, PI * 0.2, 2);
     break;
   case "noLights":
     camera.setActive(false);
@@ -199,17 +181,4 @@ void keyPressed() {
   if (keyCode == 'u' || keyCode == 'U') lightMode = "afternoon";
   if (keyCode == 'i' || keyCode == 'I') lightMode = "night";
   if (keyCode == 'o' || keyCode == 'O') lightMode = "noLights";
-}
-
-void keyReleased() {
-  boolean someCameraKeyIsReleased = keyCode == 'w' || keyCode == 'W' ||
-    keyCode == 'd' || keyCode == 'D' ||
-    keyCode == 's' || keyCode == 'S' ||
-    keyCode == 'a' || keyCode == 'A' ||
-    keyCode == 'e' || keyCode == 'E' ||
-    keyCode == 'q' || keyCode == 'Q' ||
-    keyCode == UP || keyCode == DOWN ||
-    keyCode == LEFT || keyCode == RIGHT;
-
-  if (someCameraKeyIsReleased) pressedKey = "";
 }

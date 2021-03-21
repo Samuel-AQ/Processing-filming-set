@@ -66,8 +66,4 @@ public class SetElement{
   protected String getName(){
     return name;
   }
-  
-  protected PShape getShape(){
-    return body;
-  }
 }
