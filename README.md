@@ -16,6 +16,8 @@ The camera controls are:
 * Right click and vertical drag to modify zoom
 * Double left click to reset the camera
 
+**IMPORTANT:** in order to use the camera you need to install the Peasycam library from the Processing tools section.
+
 ## Implementation decisions
 This application has been developed according to the principles of Jakob Nielsen. It's easy to use, makes the user feels the control at every moment and uses a minimalist and simple design. It is not possible for the user to generate any programming error so it hasn't been necessary to control the user's movements. The controls are at hand at every moment so it's not possible for the user to get lost using the application.
 For the camera movements I have decided to use an external library known as "PeasyCam" which makes quite easier to manage the camera in less lines.

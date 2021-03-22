@@ -1,6 +1,6 @@
 /**
  * @Author: Samuel Arrocha Quevedo
- * @Version: 21-03-2020
+ * @Version: 22-03-2020
  */
 
 import peasy.*;
@@ -15,7 +15,7 @@ void setup() {
   size(800, 800, P3D);
   showTitle = true;
   showHelp = false;
-  lightMode = "noLight";
+  lightMode = "noLights";
   xRotation = 360;
   yRotation = 201;
   set = new FilmingSet();
@@ -85,6 +85,7 @@ void draw() {
     setWalls();
     setElements();
   }
+  saveFrame("../data/frames/######-f.jpg");
 }
 
 void setWalls() {
