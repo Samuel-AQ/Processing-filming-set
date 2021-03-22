@@ -34,4 +34,4 @@ There are 4 lights modes:
 * [Set shapes](https://free3d.com/)
 ## Other info
 * Author: Samuel Arrocha Quevedo
-* Version: 21/03/2021
+* Version: 22/03/2021
