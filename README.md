@@ -27,7 +27,7 @@ There are 4 lights modes:
 * Night: it shows a less illuminated version of the park lighted just by a street light.
 * No light: it shows nothing, there is no light so it won't be possible for the user to see any element of the filming set.
 ## Application demonstration
-![Example](https://github.com/Samuel-AQ/Planetary-system/blob/develop/data/Demonstration/example.gif?raw=true)
+![Example](https://github.com/Samuel-AQ/Processing-filming-set/blob/master/data/images/example.gif?raw=true)
 ## References
 * [Processing documentation](https://processing.org/reference/)
 * [Peasycam](http://mrfeinberg.com/peasycam/)
