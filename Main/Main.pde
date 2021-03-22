@@ -85,7 +85,6 @@ void draw() {
     setWalls();
     setElements();
   }
-  saveFrame("../data/frames/######-f.jpg");
 }
 
 void setWalls() {
